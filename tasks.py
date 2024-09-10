@@ -46,7 +46,7 @@ def fill_form_with_csv_data():
 
 def archive_receipts():
     lib = Archive()
-    lib.archive_folder_with_zip('./output', 'orders.zip', include='_receipt.pdf')
+    lib.archive_folder_with_zip('output/', 'output/orders.zip', include='_receipt.pdf')
 
 def order_robot(row_info: dict):
     """Fills the data in the form and export the order as pdf"""
