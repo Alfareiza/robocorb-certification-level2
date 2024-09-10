@@ -30,6 +30,7 @@ def minimal_task():
     close_modal()
     fill_form_with_csv_data()
     archive_receipts()
+    
 
 def open_robot_order_website():
     """Navigates to the given URL"""
@@ -45,8 +46,15 @@ def fill_form_with_csv_data():
         order_robot(order)
 
 def archive_receipts():
+    """Create orders.zip in the output folder"""
     lib = Archive()
-    lib.archive_folder_with_zip('output/', 'output/orders.zip', include='_receipt.pdf')
+    folder_path = Path('output/')
+    pattern_include = '*_receipt.pdf'
+
+    lib.archive_folder_with_zip(str(folder_path), 'output/orders.zip', include=pattern_include)    
+    for file_path in folder_path.glob(pattern_include):
+        if file_path.is_file():
+            file_path.unlink()
 
 def order_robot(row_info: dict):
     """Fills the data in the form and export the order as pdf"""
