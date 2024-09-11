@@ -12,7 +12,16 @@ from RPA.HTTP import HTTP
 from RPA.PDF import PDF
 from RPA.Tables import Tables
 from RPA.Archive import Archive
+from RPA.Assistant import Assistant
 
+def user_input_task():
+    assistant = Assistant()
+    assistant.add_heading("Input from user")
+    assistant.add_text_input("text_input", placeholder="Please enter URL")
+    assistant.add_submit_buttons("Submit", default="Submit")
+    result = assistant.run_dialog()
+    return result.text_input
+    
 
 @task
 def minimal_task():
@@ -26,15 +35,17 @@ def minimal_task():
     browser.configure(
         slowmo=100,
     )
+    # url = user_input_task()  # Optional
+    # open_robot_order_website(url)  # Optional
     open_robot_order_website()
     close_modal()
     fill_form_with_csv_data()
     archive_receipts()
     
 
-def open_robot_order_website():
+def open_robot_order_website(url = "https://robotsparebinindustries.com/#/robot-order"):
     """Navigates to the given URL"""
-    browser.goto("https://robotsparebinindustries.com/#/robot-order")
+    browser.goto(url)
 
 def close_modal():
     """Close the alert modal"""
